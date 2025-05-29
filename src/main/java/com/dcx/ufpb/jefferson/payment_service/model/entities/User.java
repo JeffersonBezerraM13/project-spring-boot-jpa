@@ -3,10 +3,12 @@ package com.dcx.ufpb.jefferson.payment_service.model.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tb_user") //mudou o nome pq o db h2 usar o nome "user".
+@Table(name = "tb_user") //mudou o nome porque o nome user entra em conflito com outro user do db h2
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -17,6 +19,11 @@ public class User implements Serializable {
     private String email;
     private String phone;
     private String password;
+
+    //do outro lado a associação o atributo que esta associado com essa classe é client, então é preciso deixar claro isso
+    //@OneToMany pois um cliente pode ter varios pedidos associados
+    @OneToMany(mappedBy = "client")
+    private List<Order> orders = new ArrayList<>();
 
     public User() {}
 
@@ -66,6 +73,10 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
     }
 
     @Override
