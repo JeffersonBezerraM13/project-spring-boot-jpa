@@ -1,5 +1,7 @@
 package com.dcx.ufpb.jefferson.payment_service.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -14,6 +16,8 @@ public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'",timezone = "GMT") //formatação do padrão ISO
     private Instant moment;
 
     @ManyToOne //Muito para um ou seja um cliente(user) pode ter varios pedidos associados a ele

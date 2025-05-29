@@ -1,5 +1,6 @@
 package com.dcx.ufpb.jefferson.payment_service.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -20,6 +21,7 @@ public class User implements Serializable {
     private String phone;
     private String password;
 
+    @JsonIgnore
     //do outro lado a associação o atributo que esta associado com essa classe é client, então é preciso deixar claro isso
     //@OneToMany pois um cliente pode ter varios pedidos associados
     @OneToMany(mappedBy = "client")
