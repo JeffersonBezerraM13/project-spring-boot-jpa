@@ -1,6 +1,6 @@
 package com.dcx.ufpb.jefferson.payment_service.resources;
 
-import com.dcx.ufpb.jefferson.payment_service.model.entities.Order;
+import com.dcx.ufpb.jefferson.payment_service.entities.Order;
 import com.dcx.ufpb.jefferson.payment_service.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
 package com.dcx.ufpb.jefferson.payment_service.services;
 
-import com.dcx.ufpb.jefferson.payment_service.model.entities.User;
+import com.dcx.ufpb.jefferson.payment_service.entities.User;
 import com.dcx.ufpb.jefferson.payment_service.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

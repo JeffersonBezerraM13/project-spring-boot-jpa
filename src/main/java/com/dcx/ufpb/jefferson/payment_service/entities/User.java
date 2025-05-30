@@ -1,4 +1,4 @@
-package com.dcx.ufpb.jefferson.payment_service.model.entities;
+package com.dcx.ufpb.jefferson.payment_service.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
