@@ -6,7 +6,9 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table (name = "tb_order") //mudou de nome porque o nome "Order" entra em conflito com outro order do banco de dados
@@ -26,6 +28,9 @@ public class Order implements Serializable {
     @ManyToOne //Muito para um ou seja um cliente(user) pode ter varios pedidos associados a ele
     @JoinColumn(name = "client_id") //nome da chave estrangeira que vai ter no banco de dados
     private User client;
+
+    @OneToMany(mappedBy = "id.order")
+    private Set<OrderItem> itens = new HashSet<>();
 
     public Order(){}
 
@@ -68,6 +73,10 @@ public class Order implements Serializable {
 
     public void setClient(User client) {
         this.client = client;
+    }
+
+    public Set<OrderItem> getItens() {
+        return itens;
     }
 
     @Override
