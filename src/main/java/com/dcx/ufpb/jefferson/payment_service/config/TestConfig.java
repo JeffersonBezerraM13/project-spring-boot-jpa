@@ -2,10 +2,7 @@ package com.dcx.ufpb.jefferson.payment_service.config;
 
 import com.dcx.ufpb.jefferson.payment_service.entities.*;
 import com.dcx.ufpb.jefferson.payment_service.entities.enums.OrderStatus;
-import com.dcx.ufpb.jefferson.payment_service.repositories.CategoryRepository;
-import com.dcx.ufpb.jefferson.payment_service.repositories.OrderRepository;
-import com.dcx.ufpb.jefferson.payment_service.repositories.ProductRepository;
-import com.dcx.ufpb.jefferson.payment_service.repositories.UserRepository;
+import com.dcx.ufpb.jefferson.payment_service.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -30,8 +27,10 @@ public class TestConfig implements CommandLineRunner {
     @Autowired
     private ProductRepository productRepository;
 
-    @Override
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
+    @Override
     public void run(String... args) throws Exception {
         Category cat1 = new Category(null, "Electronics");
         Category cat2 = new Category(null, "Books");
@@ -65,5 +64,6 @@ public class TestConfig implements CommandLineRunner {
         OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
         OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
         OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+        orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
     }
 }

@@ -1,6 +1,7 @@
 package com.dcx.ufpb.jefferson.payment_service.entities;
 
 import com.dcx.ufpb.jefferson.payment_service.entities.pk.OrderItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -14,7 +15,7 @@ public class OrderItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId
-    private OrderItemPK id;
+    private OrderItemPK id = new OrderItemPK();
 
     private Integer quantity;
     private Double price;
@@ -26,6 +27,23 @@ public class OrderItem implements Serializable {
         this.id.setProduct(product);
         this.quantity = quantity;
         this.price = price;
+    }
+
+    @JsonIgnore
+    public Order getOrder(){
+        return this.id.getOrder();
+    }
+
+    public void setOrder(Order order){
+        this.id.setOrder(order);
+    }
+
+    public Product getProduct(){
+        return this.id.getProduct();
+    }
+
+    public void setProduct(Product product){
+        this.id.setProduct(product);
     }
 
     public Integer getQuantity() {
@@ -42,22 +60,6 @@ public class OrderItem implements Serializable {
 
     public void setPrice(Double price) {
         this.price = price;
-    }
-
-    public Order getOrder(){
-        return this.id.getOrder();
-    }
-
-    public void setOrder(Order order){
-        this.id.setOrder(order);
-    }
-
-    public Product getProduct(){
-        return this.id.getProduct();
-    }
-
-    public void setProduct(Product product){
-        this.id.setProduct(product);
     }
 
     @Override

@@ -19,7 +19,7 @@ public class Category implements Serializable {
     private Long id;
     private String name;
 
-    @JsonIgnore
+    @JsonIgnore //para o arquivo json não ficar infinito
     @ManyToMany(mappedBy = "categories")
     private Set<Product> products = new HashSet<>();
 
