@@ -22,7 +22,6 @@ public class Order implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'",timezone = "GMT") //formatação do padrão ISO
     private Instant moment;
 
-
     private Integer orderStatus;
 
     @ManyToOne //Muito para um ou seja um cliente(user) pode ter varios pedidos associados a ele
@@ -31,6 +30,10 @@ public class Order implements Serializable {
 
     @OneToMany(mappedBy = "id.order")
     private Set<OrderItem> itens = new HashSet<>();
+
+    //Tem que fazer isso pq é um para 1
+    @OneToOne(mappedBy = "order",cascade = CascadeType.ALL)
+    private Payment payment;
 
     public Order(){}
 
@@ -75,8 +78,20 @@ public class Order implements Serializable {
         this.client = client;
     }
 
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+
     public Set<OrderItem> getItens() {
         return itens;
+    }
+
+    public Double getTotal(){
+        return this.itens.stream().map(OrderItem::getSubTotal).reduce(0.0,(a,b)->a+b);
     }
 
     @Override
