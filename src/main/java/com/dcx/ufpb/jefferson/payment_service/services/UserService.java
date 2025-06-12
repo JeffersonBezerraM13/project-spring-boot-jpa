@@ -2,7 +2,12 @@ package com.dcx.ufpb.jefferson.payment_service.services;
 
 import com.dcx.ufpb.jefferson.payment_service.entities.User;
 import com.dcx.ufpb.jefferson.payment_service.repositories.UserRepository;
+import com.dcx.ufpb.jefferson.payment_service.services.exceptions.DatabaseException;
+import com.dcx.ufpb.jefferson.payment_service.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +29,7 @@ public class UserService {
     public User findById(Long id) {
         //findById busca DO banco de dados o objeto
         Optional<User> obj = userRepository.findById(id);
-        return obj.orElse(null); //precisa criar uma classe que seja exception compativel com Spring
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public User insert(User user) {
@@ -32,14 +37,25 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        userRepository.deleteById(id);
+        try {
+            User user = findById(id);
+            userRepository.delete(user);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException(id);
+        } catch (DataIntegrityViolationException e){
+            throw new DatabaseException(e.getMessage());
+        }
     }
 
     public User update(Long id, User user) {
         // getReferenceById instacia o user mas ele não busca do banco de dados, mas ele continua sendo monitorado pelo JPA
-        User entity = userRepository.getReferenceById(id);
-        updateData(entity,user);
-        return userRepository.save(entity);
+        try {
+            User entity = userRepository.getReferenceById(id);
+            updateData(entity,user);
+            return userRepository.save(entity);
+        } catch (EntityNotFoundException e){
+            throw new ResourceNotFoundException(id);
+        }
     }
 
     private void updateData(User entity, User user) {
